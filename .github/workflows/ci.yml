@@ -1,0 +1,24 @@
+name: Ling 508 Project Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    env:
+      ORG: "uazhlt"
+      IMAGE_NAME: "ling_508_project"
+      TAG: "latest"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build the docker image
+        run: |
+          docker build . --file Dockerfile --tag ${ORG}/${IMAGE_NAME}:${TAG}
+      - name: Run the tests
+        run: |
+          docker run -i ${ORG}/${IMAGE_NAME}:${TAG} python -m pytest tests
