@@ -1,3 +1,4 @@
 pytest
 pytest-timeout
-
+beautifulsoup4
+mysql-connector

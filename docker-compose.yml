@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    links:
+      - db
+    ports:
+      - "8000:8000"  # adjust the ports if needed
+    environment:
+      - EXAMPLE_ENV_VAR=value  # add any required environment variables
+    volumes:
+      - ./app:/app  # adjust the volumes if needed
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  data:
