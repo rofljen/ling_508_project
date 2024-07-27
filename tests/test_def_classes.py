@@ -1,5 +1,7 @@
 import pytest
-from classes_def import Text, Sent, LexEntry
+from text import Text
+from sentences import Sent
+from lexentry import LexEntry
 
 def test_sentences():
     text = Text("Hello, this is an example text. It has multiple sentences.")
