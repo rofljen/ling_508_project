@@ -1,7 +1,7 @@
 import pytest
 from model.text import Text
 from model.sentences import Sent
-from model.lexentry import LexEntry
+from model. lexentry import LexEntry
 
 def test_sentences():
     text = Text("Hello, this is an example text. It has multiple sentences.")
