@@ -3,3 +3,4 @@ pytest-timeout
 beautifulsoup4
 mysql-connector
 spacy
+nltk
