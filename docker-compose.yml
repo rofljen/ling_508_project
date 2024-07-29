@@ -3,11 +3,8 @@ version: '3.8'
 services:
   app:
     build: .
-    command: ["db:3306", "--", "python", "-m", "pytest", "tests"]
-    ports:
-      - "8000:8000"
+    command: ["python", "-m", "pytest", "tests"]
     environment:
-      - EXAMPLE_ENV_VAR=value
       - DB_HOST=db
       - DB_PORT=3306
       - DB_USER=root
@@ -17,15 +14,20 @@ services:
       - .:/usr/src/app
     depends_on:
       - db
-    networks:
-      - default
+    ports:
+      - "8000:8000"
 
   db:
     image: mysql:5.7
-    ports:
-      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ling_classifier
+    ports:
+      - "3306:3306"
     volumes:
-      - ./data:/docker-entrypoint-initdb.d:ro
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost --silent"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
