@@ -17,17 +17,22 @@ services:
       - .:/usr/src/app
     depends_on:
       - db
+    networks:
+      - default
 
   db:
     image: mysql:5.7
-    container_name: db  # Set the container name here
+    container_name: db
     ports:
-      - "32000:3306"  # Corrected port mapping
+      - "32000:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ling_classifier
     volumes:
       - ./data:/docker-entrypoint-initdb.d:ro
+    networks:
+      - default
 
-volumes:
-  data:
+networks:
+  default:
+    driver: bridge
