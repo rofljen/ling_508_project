@@ -3,12 +3,12 @@ version: '3.8'
 services:
   app:
     build: .
-    command: ["python", "-m", "pytest", "tests"]
+    command: ["./wait-for-it.sh", "db:3306", "--", "python", "-m", "pytest", "tests"]
     ports:
       - "8000:8000"
     environment:
       - EXAMPLE_ENV_VAR=value
-      - DB_HOST=db  # This will resolve to the container named 'db'
+      - DB_HOST=db  # Correct host name
       - DB_PORT=3306
       - DB_USER=root
       - DB_PASSWORD=root
@@ -22,7 +22,7 @@ services:
     image: mysql:5.7
     container_name: db  # Set the container name here
     ports:
-      - "32000:3306"
+      - "32000:3306"  # Corrected port mapping
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ling_classifier
