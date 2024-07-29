@@ -8,8 +8,8 @@ class MysqlRepository:
         self.config = {
             'user': 'root',
             'password': 'root',
-            'host': 'localhost',
-            'port': '32000',
+            'host': 'db',
+            'port': '3306',
             'database': 'ling_classifier'
         }
         self.connection = None

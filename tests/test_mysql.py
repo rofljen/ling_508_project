@@ -1,5 +1,5 @@
 import pytest
-from mysql_repository import MysqlRepository
+from db.mysql_repository import MysqlRepository
 
 @pytest.fixture
 def classifier_repo():
