@@ -8,17 +8,26 @@ on:
 
 jobs:
   test:
-    env:
-      ORG: "uazhlt"
-      IMAGE_NAME: "ling_508_project"
-      TAG: "latest"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build the docker image
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker images
         run: |
-          docker build . --file Dockerfile --tag ${ORG}/${IMAGE_NAME}:${TAG}
-      - name: Run the tests
+          docker-compose build
+
+      - name: Start Docker Compose services
         run: |
-          docker run -i ${ORG}/${IMAGE_NAME}:${TAG} python -m pytest tests
+          docker-compose up -d
+
+      - name: Print Docker Compose logs
+        run: |
+          docker-compose logs
+
+      - name: Stop and remove Docker Compose services
+        run: |
+          docker-compose down
