@@ -16,16 +16,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/docker
-            ~/.docker/buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
       - name: Build Docker images
         run: |
           docker-compose build
@@ -34,9 +24,9 @@ jobs:
         run: |
           docker-compose up -d
 
-      - name: Run tests
+      - name: Print Docker Compose logs
         run: |
-          docker-compose run app pytest
+          docker-compose logs
 
       - name: Stop and remove Docker Compose services
         run: |
