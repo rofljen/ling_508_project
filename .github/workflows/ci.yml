@@ -40,15 +40,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Copy SQL file
+      - name: Copy SQL file to MySQL container
         run: |
-          docker cp ./db/sql-file.sql $(docker ps -q -f ancestor=mysql:5.7):/tmp/sql-file.sql
+          docker-compose up -d
+          docker cp ./db/init.sql $(docker ps -q -f name=mysql):/tmp/init.sql
 
       - name: Load SQL script
         run: |
-          docker exec -i $(docker ps -q -f ancestor=mysql:5.7) mysql -u root -proot ling_classifier < /tmp/sql-file.sql
+          docker exec -i $(docker ps -q -f name=mysql) mysql -u root -proot ling_classifier < /tmp/init.sql
 
       - name: Run tests
         run: |
-          docker-compose up --build -d
           docker-compose exec app pytest --maxfail=1 --disable-warnings -q
