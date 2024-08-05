@@ -12,41 +12,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: ling_classifier
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent" 
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.9
-          
-      - name: Build and Start Services
-        run: |
-          docker-compose up -d
-          sleep 10  # Wait for services to initialize
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: Copy SQL File and Initialize Database
+      - name: Set up Docker Compose
         run: |
-          # Copy SQL file to the MySQL container
-          docker cp ./db/init.sql $(docker ps -q -f name=mysql):/tmp/init.sql
-          # Run the SQL file inside the MySQL container
-          docker exec -i $(docker ps -q -f name=mysql) mysql -u root -proot ling_classifier < /tmp/init.sql
+          sudo curl -L "https://github.com/docker/compose/releases/download/2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
 
-      - name: Run Tests
+      - name: Verify Docker Compose installation
+        run: docker-compose --version
+
+      - name: Run Docker Compose
         run: |
-          docker-compose exec app pytest --maxfail=1 --disable-warnings -q
+          docker-compose -f docker-compose.yml up -d
+          # Add additional commands here if needed
+          docker-compose -f docker-compose.yml down
