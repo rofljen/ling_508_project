@@ -6,7 +6,7 @@ services:
       - db
     environment:
       - DB_HOST=db
-      - DB_PORT=32000
+      - DB_PORT=3306
       - DB_USER=root
       - DB_PASSWORD=root
       - DB_NAME=ling_classifier
@@ -14,7 +14,7 @@ services:
   db:
     image: mysql:5.7
     ports:
-      - "32000:3306"
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ling_classifier
