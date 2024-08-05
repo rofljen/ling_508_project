@@ -8,7 +8,7 @@ class MysqlRepository:
         config = {
             'user': 'root',
             'password': 'root',
-            'host': 'localhost',
+            'host': 'db',
             'port': '3306',
             'database': 'ling_classifier'
         }
@@ -84,8 +84,8 @@ class MysqlRepository:
 
     def get_text_by_id(self, text_id):
         query = "SELECT * from text where id = %s"
-        self.cursor.execute(query, (text_id))
-        result = self.cursor.fetchall()
+        self.cursor.execute(query, text_id)
+        result = self.cursor.fetchone()
         if result:
             return {
                 'id': result[0],
