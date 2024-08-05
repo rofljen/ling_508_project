@@ -22,10 +22,10 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
 
       - name: Verify Docker Compose installation
-        run: docker-compose --version
+        run: docker compose version
 
       - name: Run Docker Compose
         run: |
-          docker-compose -f docker-compose.yml up -d
+          docker compose -f docker-compose.yml up -d
           # Add additional commands here if needed
-          docker-compose -f docker-compose.yml down
+          docker compose -f docker-compose.yml down
