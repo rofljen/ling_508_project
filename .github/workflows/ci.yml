@@ -39,21 +39,20 @@ jobs:
         run: |
           sudo curl -L "https://github.com/docker/compose/releases/download/2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Copy SQL file to MySQL container
+      - name: Build and Start Services
         run: |
           docker-compose up -d
-          docker cp ./db/init.sql $(docker ps -q -f name=mysql):/tmp/init.sql
+          sleep 10  # Wait for services to initialize
 
-      - name: Load SQL script
+      - name: Copy SQL File and Initialize Database
         run: |
+          # Copy SQL file to the MySQL container
+          docker cp ./db/init.sql $(docker ps -q -f name=mysql):/tmp/init.sql
+          # Run the SQL file inside the MySQL container
           docker exec -i $(docker ps -q -f name=mysql) mysql -u root -proot ling_classifier < /tmp/init.sql
 
-      - name: Run tests
+      - name: Run Tests
         run: |
           docker-compose exec app pytest --maxfail=1 --disable-warnings -q
