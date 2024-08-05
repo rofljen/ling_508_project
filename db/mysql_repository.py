@@ -1,6 +1,5 @@
 import mysql.connector
 from mysql.connector import Error
-from Model.enums import PartofSpeech
 from Model.lexentry import LexEntry
 from Model.text import Text
 
@@ -25,24 +24,20 @@ class MysqlRepository:
     def __del__(self):
         self.close()
 
-    def map_pos(self, pos_str: str) -> PartofSpeech:
-        pos_switcher = {
-            'VERB': PartofSpeech.VERB,
-            'NOUN': PartofSpeech.NOUN,
-            'ADJ': PartofSpeech.ADJECTIVE,
-            'ADV': PartofSpeech.ADVERB,
-            'PRON': PartofSpeech.PRONOUN,
-            'DET': PartofSpeech.DETERMINER,
-            'ADP': PartofSpeech.PREPOSITION
-        }
-        return pos_switcher.get(pos_str, None)
+    def map_pos(self, pos: str) -> str:
+        # Example POS mapping function
+        pos_mapping = {'NOUN': 'Noun', 'VERB': 'Verb'}
+        return pos_mapping.get(pos, 'Unknown')
 
     def mapper(self, entry: dict) -> LexEntry:
-        return LexEntry(
-            form=entry.get('form'),
-            pos=self.map_pos(entry.get('pos')),
-            gloss=entry.get('definition')
-        )
+        form = entry.get('form', '')
+        pos = self.map_pos(entry.get('pos', ''))
+        gloss = entry.get('gloss', '')
+        lemma = entry.get('lemma', None)
+        example = entry.get('example', None)
+        sentence = None  # Set this as needed or remove if not used
+
+        return LexEntry(form=form, pos=pos, gloss=gloss, lemma=lemma, example=example, sentence=sentence)
 
     def load_lexicon(self) -> list[LexEntry]:
         try:
