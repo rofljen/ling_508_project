@@ -1,13 +1,7 @@
 import pytest
-from db.mysql_repository import MysqlRepository
+from db.mysql_repository import *
 
-
-@pytest.fixture(scope="module")
-def classifier_repo():
-    repo = MysqlRepository()
-    yield repo
-    repo.connection.close()
-
+repo = MysqlRepository()
 
 def test_get_lang(classifier_repo):
     query = "SELECT DISTINCT text_lang FROM text"
