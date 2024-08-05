@@ -28,7 +28,7 @@ class LexEntry:
         cleaned_text = text.translate(translator)
         return cleaned_text.lower()
 
-    def split_into_words(self):
+    def return_lex_entries(self):
         return self.lex_entries
 
     def get_word_len(self):

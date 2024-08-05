@@ -2,32 +2,24 @@ import mysql.connector
 from mysql.connector import Error
 from Model.enums import PartofSpeech
 from Model.lexentry import LexEntry
+from Model.text import Text
 
 class MysqlRepository:
     def __init__(self):
-        self.config = {
+        config = {
             'user': 'root',
             'password': 'root',
-            'host': 'db',
+            'host': 'localhost',
             'port': '3306',
             'database': 'ling_classifier'
         }
-        self.connection = None
-        self.cursor = None
-        self.connect()
-
-    def connect(self):
-        try:
-            self.connection = mysql.connector.connect(**self.config)
-            self.cursor = self.connection.cursor()
-        except Error as e:
-            print(f"Error connecting to MySQL: {e}")
-            raise
+        self.connection = mysql.connector.connect(**config)
+        self.cursor = self.connection.cursor()
 
     def close(self):
-        if self.cursor:
+        if hasattr(self, 'cursor') and self.cursor:
             self.cursor.close()
-        if self.connection:
+        if hasattr(self, 'connection') and self.connection:
             self.connection.close()
 
     def __del__(self):
@@ -54,7 +46,7 @@ class MysqlRepository:
 
     def load_lexicon(self) -> list[LexEntry]:
         try:
-            sql = 'SELECT * FROM lex_entries'
+            sql = 'SELECT * FROM lex_entries'  # Ensure table name matches
             self.cursor.execute(sql)
             results = self.cursor.fetchall()
             entries = [{'id': id, 'form': form, 'lemma': lemma, 'pos': pos, 'gloss': gloss, 'ex': ex}
@@ -64,3 +56,48 @@ class MysqlRepository:
         except Error as e:
             print(f"Error loading lexicon: {e}")
             return []
+
+    def insert_text(self, content, text_name, text_source, text_lang, text_genre, word_count):
+        query = """INSERT INTO text (content, text_name, text_source, text_lang, text_genre, word_count) 
+                   VALUES (%s, %s, %s, %s, %s, %s)"""
+        try:
+            self.cursor.execute(query, (content, text_name, text_source, text_lang, text_genre, word_count))
+            self.connection.commit()
+            return self.cursor.lastrowid
+        except Error as e:
+            print(f"Error inserting text: {e}")
+            self.connection.rollback()
+
+    def insert_word(self, text_id, word_form, pos, lemma, gloss, example):
+        query = """INSERT INTO lex_entry (text_id, word_form, pos, lemma, gloss, example) 
+                   VALUES (%s, %s, %s, %s, %s, %s)"""
+        try:
+            self.cursor.execute(query, (text_id, word_form, pos, lemma, gloss, example))
+            self.connection.commit()
+        except Error as e:
+            print(f"Error inserting word: {e}")
+            self.connection.rollback()
+
+    def get_all_texts(self):
+        query = "SELECT * FROM texts"  # Ensure table name matches
+        try:
+            self.cursor.execute(query)
+            return self.cursor.fetchall()
+        except Error as e:
+            print(f"Error fetching texts: {e}")
+            return []
+
+    def get_text_by_id(self, text_id):
+        query = "SELECT * from text where id = %s"
+        self.cursor.execute(query, (text_id))
+        result = self.cursor.fetchall()
+        if result:
+            return {
+                'id': result[0],
+                'text': result[1],
+                'text_name': result[2],
+                'text_source': result[3],
+                'text_lang': result[4],
+                'text_genre': result[5]
+            }
+        return None

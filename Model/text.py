@@ -1,9 +1,13 @@
 import spacy
 class Text:
-    def __init__(self, text="", lang="en"):
+    def __init__(self, text="", text_name="", text_source="", text_lang="en", text_genre="", word_count=0):
         self.text = text
-        self.lang = lang
-        self.nlp = self.load_model(lang)
+        self.text_name = text_name
+        self.text_source = text_source
+        self.text_lang = text_lang
+        self.text_genre = text_genre
+        self.word_count = word_count
+        self.nlp = self.load_model(text_lang)
 
     def load_model(self, lang):
         model_name = {
@@ -21,6 +25,11 @@ class Text:
 
     def accept_input(self):
         self.text = input("Please enter your text: ")
+        self.lang = input("Please enter the text language: ")
+        self.text_name = input("Please provide a name for the text: ")
+        self.text_source = input("Please provide a text source :")
+        self.text_genre = input("Please provide a text genre: ")
+        self.word_count = len(self.text.split())
 
     def split_into_sent(self):
         doc = self.nlp(self.text)

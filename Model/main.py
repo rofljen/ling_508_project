@@ -1,4 +1,7 @@
+from app.services import Services
+
 if __name__ == "__main__":
+    services = Services()
     lang = input("Please enter the language code")
     text_input = Text(lang=lang)
     text_input = Text()
