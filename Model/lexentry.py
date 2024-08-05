@@ -1,9 +1,10 @@
 import spacy
 import string
 from nltk.corpus import wordnet
+
 class LexEntry:
     def __init__(self, form, pos, gloss, lemma=None, example=None, sentence=None, lang='en'):
-        self.form = form
+        self.sentence = sentence
         self.pos = pos
         self.gloss = gloss
         self.lemma = lemma
@@ -15,6 +16,9 @@ class LexEntry:
         else:
             self.nlp = None
             self.doc = None
+
+        # Process the form into individual words
+        self.form = self.process_text(form).split()
 
     def get_model_name(self, lang):
         model_name = {
@@ -64,12 +68,12 @@ class LexEntry:
                     return token.lemma_
         return word
 
-    def get_sense(self, word):
+    def get_gloss(self, word):
         synsets = wordnet.synsets(word)
-        senses = {}
+        glosses = {}
         for synset in synsets:
-            senses[synset.name()] = {
+            glosses[synset.name()] = {
                 'definition': synset.definition(),
                 'examples': synset.examples()
             }
-        return senses
+        return glosses
