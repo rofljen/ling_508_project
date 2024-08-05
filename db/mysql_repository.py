@@ -9,7 +9,7 @@ class MysqlRepository:
             'user': 'root',
             'password': 'root',
             'host': 'db',
-            'port': '3306',
+            'port': '32000',
             'database': 'ling_classifier'
         }
         self.connection = mysql.connector.connect(**config)
