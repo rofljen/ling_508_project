@@ -12,26 +12,43 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: ling_classifier
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent" 
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
 
-      - name: Install Docker Compose
+      - name: Install dependencies
         run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-linux-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Build Docker images
-        run: docker-compose build
+      - name: Copy SQL file
+        run: |
+          docker cp ./db/sql-file.sql $(docker ps -q -f ancestor=mysql:5.7):/tmp/sql-file.sql
 
-      - name: Run Docker Compose
-        run: docker-compose up -d
+      - name: Load SQL script
+        run: |
+          docker exec -i $(docker ps -q -f ancestor=mysql:5.7) mysql -u root -proot ling_classifier < /tmp/sql-file.sql
 
       - name: Run tests
-        run: docker-compose exec -T app pytest
-
-      - name: Clean up
-        run: docker-compose down
+        run: |
+          docker-compose up --build -d
+          docker-compose exec app pytest --maxfail=1 --disable-warnings -q
