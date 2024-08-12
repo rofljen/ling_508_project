@@ -4,6 +4,10 @@ services:
   app:
     build: .
     command: ["python", "-m", "pytest", "tests"]
+    deploy:
+      resources:
+        limits:
+          memory: 1G
     environment:
       - DB_HOST=db
       - DB_PORT=32000
