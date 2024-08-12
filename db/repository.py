@@ -27,7 +27,7 @@ class Repository(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def insert_text(self, content: str, text_name: str, text_source: str, text_lang: str, text_genre: str,
+    def insert_text(self, text: str, text_name: str, text_source: str, text_lang: str, text_genre: str,
                     word_count: int) -> int:
         """
         Insert a new text into the repository and return its ID.

@@ -17,7 +17,6 @@ class LexEntry:
             self.nlp = None
             self.doc = None
 
-        # Process the form into individual words
         self.form = self.process_text(form).split()
 
     def get_model_name(self, lang):
@@ -39,6 +38,11 @@ class LexEntry:
         cleaned_text = text.translate(translator)
         return cleaned_text.lower()
 
+    def get_words(self):
+        if self.nlp and self.doc:
+            return [token.text for token in self.doc if not token.is_punct]
+        return []
+
     def return_lex_entries(self):
         if self.nlp:
             return [token.text.lower() for token in self.doc if token.text not in string.punctuation]
@@ -56,16 +60,14 @@ class LexEntry:
 
     def get_pos(self, word):
         if self.nlp:
-            for token in self.doc:
-                if token.text.lower() == word.lower():
-                    return token.pos_
+            doc = self.nlp(word)
+            return doc[0].pos_
         return None
 
     def lemmatize_word(self, word):
         if self.nlp:
-            for token in self.doc:
-                if token.text.lower() == word.lower():
-                    return token.lemma_
+            doc = self.nlp(word)
+            return doc[0].lemma_
         return word
 
     def get_gloss(self, word):

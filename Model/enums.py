@@ -26,11 +26,11 @@ class Genre(Enum):
     Science = "Science"
 
 class Lang(Enum):
-    en = "English"
-    es = "Espanol"
-    de = "Deutsch"
-    fr = "Francais"
-    it = "Italianio",
-    nl = "Nederlands"
-    pt = "Portuguese"
-    xx = "Lang Neutral"
+    en = 'en_core_web_sm'
+    es = 'es_core_news_sm'
+    de = 'de_core_news_sm'
+    fr = 'fr_core_news_sm'
+    it = 'it_core_news_sm'
+    nl = 'nl_core_news_sm'
+    pt = 'pt_core_news_sm'
+    xx = 'xx_ent_wiki_sm'

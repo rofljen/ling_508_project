@@ -8,20 +8,22 @@ class MysqlRepository:
         config = {
             'user': 'root',
             'password': 'root',
-            'host': 'db',
-            'port': '3306',
+            'host': 'localhost',
+            'port': '32000',
             'database': 'ling_classifier'
         }
         self.connection = mysql.connector.connect(**config)
         self.cursor = self.connection.cursor()
 
     def close(self):
-        if hasattr(self, 'cursor') and self.cursor:
+        if self.cursor:
             self.cursor.close()
-        if hasattr(self, 'connection') and self.connection:
+        if  self.connection:
             self.connection.close()
 
-    def __del__(self):
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
     def map_pos(self, pos: str) -> str:
@@ -52,11 +54,11 @@ class MysqlRepository:
             print(f"Error loading lexicon: {e}")
             return []
 
-    def insert_text(self, content, text_name, text_source, text_lang, text_genre, word_count):
-        query = """INSERT INTO text (content, text_name, text_source, text_lang, text_genre, word_count) 
+    def insert_text(self, text, text_name, text_source, text_lang, text_genre, word_count):
+        query = """INSERT INTO text (text, text_name, text_source, text_lang, text_genre, word_count) 
                    VALUES (%s, %s, %s, %s, %s, %s)"""
         try:
-            self.cursor.execute(query, (content, text_name, text_source, text_lang, text_genre, word_count))
+            self.cursor.execute(query, (text, text_name, text_source, text_lang, text_genre, word_count))
             self.connection.commit()
             return self.cursor.lastrowid
         except Error as e:
@@ -74,7 +76,7 @@ class MysqlRepository:
             self.connection.rollback()
 
     def get_all_texts(self):
-        query = "SELECT * FROM texts"  # Ensure table name matches
+        query = "SELECT * FROM text"  # Ensure table name matches
         try:
             self.cursor.execute(query)
             return self.cursor.fetchall()
@@ -83,8 +85,8 @@ class MysqlRepository:
             return []
 
     def get_text_by_id(self, text_id):
-        query = "SELECT * from text where id = %s"
-        self.cursor.execute(query, text_id)
+        query = "SELECT * FROM text WHERE id = %s"
+        self.cursor.execute(query, (text_id,))  # Notice the tuple here
         result = self.cursor.fetchone()
         if result:
             return {
@@ -93,6 +95,7 @@ class MysqlRepository:
                 'text_name': result[2],
                 'text_source': result[3],
                 'text_lang': result[4],
-                'text_genre': result[5]
+                'text_genre': result[5],
+                'word_count': result[6]
             }
         return None
