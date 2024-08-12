@@ -4,7 +4,7 @@ from Model.sentences import Sent
 from Model.lexentry import LexEntry
 
 def test_sentences():
-    text = Text("Hello, this is an example text. It has multiple sentences.")
+    text = Text("Hello, this is an example text. It has multiple sentences.", 'en')
     sentences = text.split_into_sent()
     sent_chunk = Sent(sentences)
 
@@ -15,7 +15,7 @@ def test_sentences():
     assert len(sentences) == 2
 
 def test_lex_entries():
-    text = Text("Hello, this is an example text. It has multiple sentences.")
+    text = Text("Hello, this is an example text. It has multiple sentences.", 'en')
     sentences = text.split_into_sent()
     sent_chunk = Sent(sentences)
 
@@ -36,7 +36,7 @@ def test_lex_entries():
         assert lex_entry.gloss == gloss
 
 def test_lemma():
-    text = Text("Hello, this is an example text. It has multiple sentences.")
+    text = Text("Hello, this is an example text. It has multiple sentences.", 'en')
     sentences = text.split_into_sent()
     sent = Sent(sentences)
 
