@@ -79,3 +79,15 @@ class LexEntry:
                 'examples': synset.examples()
             }
         return glosses
+
+    def get_word_details(self, word):
+        if self.nlp:
+            doc = self.nlp(word)
+            word_info = {
+                'form': word,
+                'POS': doc[0].pos_,
+                'lemma': doc[0].lemma_,
+                'gloss': self.get_gloss(word)
+            }
+            return word_info
+        return {}

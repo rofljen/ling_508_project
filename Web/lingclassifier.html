@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ling Classifier Tool</title>
+</head>
+<body>
+
+<h1>Ling Classifier</h1>
+
+<h2>Enter a text that will be split into sentences and then individual words. The Ling Classifier will then provide linguistic information.</h2>
+
+<!-- Form for adding text -->
+<form id="addTextForm" action="http://localhost:8000/add_text" method="post">
+    <div class="input-group">
+        <label for="text">Text: </label>
+        <input id="text" name="text" type="text"/><br><br>
+        <label for="text_lang">Enter the text lang: </label>
+        <input id="text_lang" name="text_lang" type="text"/><br><br>
+        <label for="text_name">Enter a name for the text: </label>
+        <input id="text_name" name="text_name" type="text"/><br><br>
+        <label for="text_source">Enter the source of the text: </label>
+        <input id="text_source" name="text_source" type="text"/><br><br>
+        <label for="text_genre">Enter the text genre: </label>
+        <input id="text_genre" name="text_genre" type="text"/>
+    </div>
+    <button type="submit" value="enter_text">Submit</button>
+</form>
+
+<br><br><br>
+
+<h2>Enter a text ID to retrieve that text and its information.</h2>
+
+<!-- Form for retrieving text -->
+<form id="getTextForm" action="http://localhost:8000/get_text" method="get">
+    <div class="get-text-by-id">
+        <label for="text_id">Text ID:</label>
+        <input id="text_id" name="text_id" type="text"/>
+    </div>
+    <button type="submit" value="enter_text_id">Submit</button>
+</form>
+<br><br><br>
+<h2>Retrieve all texts</h2>
+<form id="getAllTextsForm" action="http://localhost:8000/get_all_texts" method="get">
+    <div class="get-all-texts">
+    <button type="submit" value="get_all_texts">Show all texts</button>
+        </div>
+</form>
+
+<h2>Sentences:</h2>
+<pre id="sentences"></pre>
+
+<h2>Response: </h2>
+<pre id="response"></pre>
+
+<script>
+document.getElementById('addTextForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    const data = {
+        text: formData.get('text'),
+        text_name: formData.get('text_name'),
+        text_source: formData.get('text_source'),
+        text_lang: formData.get('text_lang'),
+        text_genre: formData.get('text_genre')
+    };
+
+    // First, add the text
+    fetch('http://localhost:8000/add_text', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.msg === 'success') {
+            // Then split the text into sentences
+            return fetch('http://localhost:8000/split_into_sentences', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    text: data.text,
+                    text_lang: data.text_lang
+                })
+            });
+        } else {
+            throw new Error('Error adding text: ' + result.msg);
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.sentences) {
+            document.getElementById('sentences').textContent = JSON.stringify(result.sentences, null, 2);
+        } else {
+            document.getElementById('sentences').textContent = 'No sentences found.';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('sentences').textContent = 'An error occurred.';
+    });
+});
+
+document.getElementById('getTextForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    const textId = formData.get('text_id');
+
+    fetch(`http://localhost:8000/get_text/${textId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result) {
+            document.getElementById('response').textContent = JSON.stringify(result, null, 2);
+        } else {
+            document.getElementById('response').textContent = 'Text not found.';
+        }
+    })
+
+    document.getElementById('getAllTextsForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    fetch('http://localhost:8000/get_all_texts', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result && Array.isArray(result)) {
+            document.getElementById('response').textContent = JSON.stringify(result, null, 2);
+        } else {
+            document.getElementById('response').textContent = 'No texts found.';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('response').textContent = 'An error occurred while retrieving the texts.';
+    });
+});
+
+    document.getElementById('getSen').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    fetch('http://localhost:8000/get_all_texts', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result && Array.isArray(result)) {
+            document.getElementById('response').textContent = JSON.stringify(result, null, 2);
+        } else {
+            document.getElementById('response').textContent = 'No texts found.';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('response').textContent = 'An error occurred while retrieving the texts.';
+    });
+});
+</script>
+
+</body>
+</html>
+</script>
+
+</body>
+</html>

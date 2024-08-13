@@ -1,15 +1,9 @@
 from typing import List
-from Model.text import Text
 from Model.lexentry import LexEntry
+from Model.text import Text
 from db.mysql_repository import MysqlRepository
 from db.repository import Repository
-
-
-def split_into_sentences(text, text_lang) -> List[str]:
-    text_obj = Text(text=text, text_lang=text_lang)
-    sentences = text_obj.split_into_sent()
-    return sentences
-
+from Model.sentences import Sent
 
 class Services:
     def __init__(self, repository: Repository = None):
@@ -39,8 +33,12 @@ class Services:
     def get_all_texts(self) -> List[Text]:
         return self.repo.get_all_texts()
 
+    def split_into_sentences(self, text: str, text_lang: str) -> List[str]:
+        sent_parser = Sent(text, text_lang)
+        return sent_parser.sentences
+
     def add_words_from_text(self, text_id: int, text: str, lang: str):
-        sentences = split_into_sentences(text, lang)
+        sentences = self.split_into_sentences(text, lang)  # Call instance method
 
         for sentence in sentences:
             lex_entry = LexEntry(form=sentence, pos=None, gloss=None, lang=lang)
@@ -63,4 +61,3 @@ class Services:
                     gloss=gloss_str,
                     example=None
                 )
-

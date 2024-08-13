@@ -2,7 +2,7 @@ import pytest
 from Model.lexentry import LexEntry
 from Model.text import Text
 from Model.sentences import Sent
-from app.services import Services
+from Web.services import Services
 
 
 @pytest.fixture
@@ -31,9 +31,10 @@ def test_add_words_from_text(service):
     lang = "en"
 
     text_id = service.add_text(text, "Test Text", "test source", lang, "test genre")
-
     text_instance = Text(text=text, text_lang=lang)
-    sentences = text_instance.split_into_sent()
+    sent_instance = Sent(text, lang)  # Create an instance of Sent
+
+    sentences = sent_instance.split_into_sent()  # Call split_into_sent() on the instance
 
     for sentence in sentences:
         lex_entry = LexEntry(
@@ -50,3 +51,4 @@ def test_add_words_from_text(service):
         print(f"Part of speech - testing: {lex_entry.get_pos('testing')}")
         print(f"Part of speech - texts: {lex_entry.get_pos('texts')}")
         print(f"Gloss - testing: {lex_entry.get_gloss('testing')}")
+

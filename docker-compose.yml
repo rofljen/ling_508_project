@@ -3,24 +3,19 @@ version: '3.8'
 services:
   app:
     build: .
-    command: ["python", "-m", "pytest", "tests"]
-    deploy:
-      resources:
-        limits:
-          memory: 1G
+    command: ["flask", "run", "--host=0.0.0.0"]
     environment:
+      - FLASK_APP=Web/app.py
+      - FLASK_ENV=development
       - DB_HOST=db
-      - DB_PORT=32000
+      - DB_PORT=3306
       - DB_USER=root
       - DB_PASSWORD=root
       - DB_NAME=ling_classifier
     volumes:
       - .:/usr/src/app
-    depends_on:
-      - db
     ports:
       - "8000:8000"
-    container_name: ling_508_project
 
   db:
     image: mysql:5.7
@@ -28,15 +23,14 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ling_classifier
     ports:
-      - "32000:3306"
+      - "3306:3306"
     volumes:
-      - ./db:/docker-entrypoint-initdb.d:ro
+      - ./initdb:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost --silent"]
       interval: 30s
       timeout: 10s
       retries: 5
 
-networks:
-  default:
-    name: ling_508_project_default
+volumes:
+  data:

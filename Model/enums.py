@@ -20,10 +20,11 @@ class PartofSpeech(Enum):
     X = "X"
 
 class Genre(Enum):
-    NonFiction = "Non-Fiction"
-    Fiction = "Fiction"
-    News = "News"
-    Science = "Science"
+    NON_FICTION = "Non-Fiction"
+    FICTION = "Fiction"
+    NEWS = "News"
+    SCIENCE = "Science"
+    NONE = "None"
 
 class Lang(Enum):
     en = 'en_core_web_sm'
