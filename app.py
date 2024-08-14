@@ -9,7 +9,7 @@ service = Services(repo)
 
 @app.route('/')
 def index():
-    return send_from_directory('web', 'lingclassifier.html')
+    return send_from_directory('Web', 'lingclassifier.html')
 
 
 @app.route('/add_text', methods=['POST'])
