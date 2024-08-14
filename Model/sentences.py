@@ -5,7 +5,11 @@ class Sent:
         if not isinstance(text, str):
             raise ValueError("Text must be a string")
         self.text = text
-        self.nlp = spacy.load(self.get_model_name(lang))
+        try:
+            self.nlp = spacy.load(self.get_model_name(lang))
+            print(f"Loaded model: {self.get_model_name(lang)}")
+        except Exception as e:
+            print(f"Error loading model: {e}")
         self.sentences = self.split_into_sent()
 
     def get_model_name(self, lang):
@@ -22,9 +26,13 @@ class Sent:
         return model_name.get(lang, 'en_core_web_sm')
 
     def split_into_sent(self):
+        if not self.text.strip():
+            return []
         try:
             doc = self.nlp(self.text)
-            return [sent.text.strip() for sent in doc.sents if sent.text.strip()]
+            sentences = [sent.text.strip() for sent in doc.sents if sent.text.strip()]
+            print(f"Extracted sentences: {sentences}")
+            return sentences
         except Exception as e:
             print(f"Error during sentence segmentation: {e}")
             return []

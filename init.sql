@@ -1,6 +1,8 @@
--- Create the database and set charset
 CREATE DATABASE IF NOT EXISTS ling_classifier;
-ALTER DATABASE ling_classifier CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON ling_classifier.* TO 'root'@'%';
+FLUSH PRIVILEGES;
+
 USE ling_classifier;
 
 -- Create the `text` table

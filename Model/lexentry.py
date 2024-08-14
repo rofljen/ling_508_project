@@ -2,6 +2,7 @@ import spacy
 import string
 from nltk.corpus import wordnet
 
+
 class LexEntry:
     def __init__(self, form, pos, gloss, lemma=None, example=None, sentence=None, lang='en'):
         self.sentence = sentence

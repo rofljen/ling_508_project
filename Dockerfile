@@ -1,13 +1,18 @@
-# Start with a base Python image
+# Use a lightweight base image with Python
 FROM python:3.9
 
-# Set the working directory inside the container
-WORKDIR /usr/src/app
+# Set working directory
+WORKDIR /python-docker
 
-# Copy the content of the current directory to /usr/src/app
-COPY . .
+# Set environment variables
+ENV FLASK_APP=test_app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_RUN_PORT=8000
 
-# Install Python dependencies
+# Copy the requirements file into the container
+COPY requirements.txt ./
+
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Download SpaCy language models
@@ -23,8 +28,10 @@ RUN python -m spacy download xx_ent_wiki_sm
 # Download NLTK corpora
 RUN python -c "import nltk; nltk.download('wordnet'); nltk.download('punkt')"
 
-# Set the Python path environment variable
-ENV PYTHONPATH=/usr/src/app
+# Copy the rest of the application code into the container
+COPY . /python-docker
 
-# Run the application or tests
-CMD ["flask", "run", "--host=0.0.0.0"]
+EXPOSE 8000
+
+# Command to run the application
+CMD ["flask", "run"]

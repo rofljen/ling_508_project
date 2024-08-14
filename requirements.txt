@@ -1,10 +1,6 @@
-pytest
-pytest-timeout
-beautifulsoup4
-mysql-connector-python
-spacy
-nltk
-flask
-flask-cors
-flask-sqlalchemy
-pymysql
+typing~=3.7.4.3
+mysql-connector-python~=9.0.0
+spacy~=3.7.5
+nltk~=3.8.2
+Flask~=3.0.3
+flask-cors~=4.0.0  # If you are using Flask-CORS for handling CORS

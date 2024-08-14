@@ -5,25 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d07573b9-367a-4218-bac5-201b5cd737d4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Web/lingclassifier.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_connection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Documents/API Documentation.md" beforeDir="false" afterPath="$PROJECT_DIR$/Documents/API Documentation.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/enums.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/enums.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/lexentry.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/lexentry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/sentences.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/sentences.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/text.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Web/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/Web/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/Web/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/data/init.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/mysql_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/mysql_repository.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_def_classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_def_classes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_services.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_services.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,8 +25,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -99,7 +87,7 @@
     "Python.text.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/roflj/Documents/Ling_508/ling_508_project/tests",
+    "last_opened_file_path": "C:/Users/roflj/Documents/Ling_508/ling_508_project/app.py",
     "settings.editor.selected.configurable": "com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable"
   },
   "keyToStringList": {
@@ -110,19 +98,20 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project\tests" />
       <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project" />
+      <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project\db" />
+      <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project\tests" />
       <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project\Model" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project\Web" />
+      <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project" />
       <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project\app" />
+      <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project\Web" />
       <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project\Model" />
       <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project\data" />
-      <recent name="C:\Users\roflj\Documents\Ling_508\ling_508_project\tests" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.pytest in test_connection.py">
+  <component name="RunManager" selected="Python.flask_app">
     <configuration name="flask_app" type="PythonConfigurationType" factoryName="Python">
       <module name="ling_508_project" />
       <option name="ENV_FILES" value="" />
@@ -135,17 +124,23 @@
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="SDK_NAME" value="Python 3.12 (ling_508_project)" />
-      <option name="WORKING_DIRECTORY" value="C:\Users\roflj\Documents\Ling_508\ling_508_project\Web" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\roflj\Documents\Ling_508\ling_508_project" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Web/app.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
       <method v="2" />
     </configuration>
     <configuration name="pytest for app.add_words_from_text.test" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">

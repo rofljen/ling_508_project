@@ -1,3 +1,4 @@
+from typing import List
 import mysql.connector
 from mysql.connector import Error
 from Model.lexentry import LexEntry
@@ -8,12 +9,12 @@ class MysqlRepository:
         config = {
             'user': 'root',
             'password': 'root',
-            'host': 'db',  # Use 'localhost' if running locally
+            'host': 'localhost',
             'port': '3306',
             'database': 'ling_classifier'
         }
         self.connection = mysql.connector.connect(**config)
-        self.cursor = self.connection.cursor()
+        self.cursor = self.connection.cursor(dictionary=True)
 
     def close(self):
         if self.cursor:
@@ -71,20 +72,17 @@ class MysqlRepository:
         try:
             self.cursor.execute(query, (text_id, word_form, pos, lemma, gloss, example))
             self.connection.commit()
+            return self.cursor.lastrowid  # Return the ID of the inserted row
         except Error as e:
             print(f"Error inserting word: {e}")
             self.connection.rollback()
+            return None
 
     def get_all_texts(self):
-        query = "SELECT * FROM text"  # Ensure table name matches
-        try:
-            self.cursor.execute(query)
-            return self.cursor.fetchall()
-        except Error as e:
-            print(f"Error fetching texts: {e}")
-            return []
-
-    def get_text_by_id(self, text_id):
+        query = "SELECT id, text, text_name, text_source, text_lang, text_genre FROM text"
+        self.cursor.execute(query)
+        return self.cursor.fetchall()
+    def get_text(self, text_id):
         query = "SELECT * FROM text WHERE id = %s"
         self.cursor.execute(query, (text_id,))  # Notice the tuple here
         result = self.cursor.fetchone()
@@ -99,3 +97,21 @@ class MysqlRepository:
                 'word_count': result[6]
             }
         return None
+
+    def get_lex_entries_by_form(self, word_form: str) -> LexEntry:
+        query = "SELECT * FROM lex_entries WHERE word_form = %s"
+        self.cursor.execute(query, (word_form,))
+        result = self.cursor.fetchone()
+        if result:
+            entry = {
+                'id': result[0],
+                'form': result[1],
+                'lemma': result[2],
+                'pos': result[3],
+                'gloss': result[4],
+                'ex': result[5]
+            }
+            return self.mapper(entry)
+        return None
+
+

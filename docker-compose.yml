@@ -1,36 +1,38 @@
 version: '3.8'
 
 services:
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ling_classifier
+    ports:
+      - "3306:3306"  # Map container port 3306 to host port 3306
+    networks:
+      - new_net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "db", "--silent"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   app:
     build: .
-    command: ["flask", "run", "--host=0.0.0.0"]
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
-      - FLASK_APP=Web/app.py
-      - FLASK_ENV=development
       - DB_HOST=db
       - DB_PORT=3306
       - DB_USER=root
       - DB_PASSWORD=root
       - DB_NAME=ling_classifier
-    volumes:
-      - .:/usr/src/app
+    networks:
+      - new_net
     ports:
-      - "8000:8000"
+      - "32000:8000"  # Map container port 8000 to host port 32000
 
-  db:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ling_classifier
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./initdb:/docker-entrypoint-initdb.d:ro
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost --silent"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-volumes:
-  data:
+networks:
+  new_net:
+    driver: bridge
