@@ -8,9 +8,9 @@ The Linguistic Classifier uses:
 - Python
   - Spacy and NLTK packages for linguistic data
 - MySQL
-- Docker
 - Flask API
 - HTML
+- Windows Virtual Environment
 
 This program is intended to be scalable; the intent is to add more language models as well as funcitonality that provides more linguistic information.
 There were some issues using
@@ -25,17 +25,31 @@ git clone https://github.com/rofljen/ling_508_project
 ```bash
 cd <project directory>
 ```
+
+3. Create the virtual environment
+```bash
+python -m venv .venv
+.\.venv\Scripts\activate
+```
+
 3. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
+4. Install spacy language models
+```bash
+python 'load spacy models.py'
+```
+
 ## Congfiguration ##
 
-1. Ensure MySQL is set up according to the 'docker-compose.yml' file
-
-
-2. If applicable, set up environment variables for the database connection
+1. If applicable, set up environment variables for the database connection<br>
+  a. $env:DB_HOST="localhost"<br>
+  b. $env:DB_PORT="3306"<br>
+  c. $env:DB_USER="root"<br>
+  d. $evn:DB_PASS="root"<br>
+  e. $env:DB_NAME="ling_classifier"<br>
 
 ## Usage ##
 ## Testing ##
@@ -50,7 +64,7 @@ Issues with MySQL connection during testing, issues with language recognition.
 The program is intended to be scalable, with plans to:
 
 Add more language models
-Enhance functionality to provide additional linguistic information
+Enhance functionality to provide linguistic information.
 
 ## Contributing ## 
 
