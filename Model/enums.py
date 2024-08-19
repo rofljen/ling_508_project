@@ -27,11 +27,11 @@ class Genre(Enum):
     NONE = "None"
 
 class Lang(Enum):
-    en = 'en_core_web_sm'
-    es = 'es_core_news_sm'
-    de = 'de_core_news_sm'
-    fr = 'fr_core_news_sm'
-    it = 'it_core_news_sm'
-    nl = 'nl_core_news_sm'
-    pt = 'pt_core_news_sm'
-    xx = 'xx_ent_wiki_sm'
+    nl = "nl_core_news_lg"
+    en = "en_core_web_trf"
+    fr = "fr_dep_news_trf"
+    de = "de_dep_news_trf"
+    it = "it_core_news_lg"
+    xx = "xx_sent_ud_sm"
+    pt = "pt_core_news_lg"
+    es = "es_dep_news_trf"

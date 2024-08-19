@@ -22,15 +22,15 @@ class LexEntry:
 
     def get_model_name(self, lang):
         model_name = {
-            'en': 'en_core_web_sm',
-            'es': 'es_core_news_sm',
-            'de': 'de_core_news_sm',
-            'fr': 'fr_core_news_sm',
-            'it': 'it_core_news_sm',
-            'nl': 'nl_core_news_sm',
-            'pt': 'pt_core_news_sm',
-            'xx': 'xx_ent_wiki_sm'  # Multilingual model
-        }.get(lang, 'en_core_web_sm')  # Default to English if language not found
+            'nl': "nl_core_news_lg",
+            'en': "en_core_web_trf",
+            'fr': "fr_dep_news_trf",
+            'de': "de_dep_news_trf",
+            'it': "it_core_news_lg",
+            'xx': "xx_sent_ud_sm",
+            'pt': "pt_core_news_lg",
+            'es': "es_dep_news_trf"
+        }.get(lang, 'en_core_web_trf')  # Default to English if language not found
 
         return model_name
 
