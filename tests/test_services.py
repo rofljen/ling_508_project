@@ -2,7 +2,7 @@ import pytest
 from Model.lexentry import LexEntry
 from Model.text import Text
 from Model.sentences import Sent
-from Web.services import Services
+from services import Services
 
 
 @pytest.fixture
