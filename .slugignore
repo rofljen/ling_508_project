@@ -6,3 +6,7 @@ documents/
 .error.log
 .test_connection.py
 app/
+.Readme.md
+mysql508/db/sakila-db/
+.github/workflows/
+app/__pycache__/
