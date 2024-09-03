@@ -1,0 +1,8 @@
+tests/
+documents/
+.idea/
+.env
+.gitignore
+.error.log
+.test_connection.py
+app/
